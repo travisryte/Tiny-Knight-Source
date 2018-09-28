@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sfx_wpn_sword3.wav-857c3d23c7531cc6528742a6d174df14.sample"
+
+[deps]
+
+source_file="res://characters/Boss/sounds/sfx_wpn_sword3.wav"
+dest_files=[ "res://.import/sfx_wpn_sword3.wav-857c3d23c7531cc6528742a6d174df14.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

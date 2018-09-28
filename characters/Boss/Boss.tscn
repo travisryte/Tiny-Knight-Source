@@ -1,0 +1,443 @@
+[gd_scene load_steps=28 format=2]
+
+[ext_resource path="res://characters/Boss/scripts/boss.gd" type="Script" id=1]
+[ext_resource path="res://characters/Boss/scripts/Sprites.gd" type="Script" id=2]
+[ext_resource path="res://characters/Boss/sprites/Skeleton Attack.png" type="Texture" id=3]
+[ext_resource path="res://characters/Boss/scripts/Area2D.gd" type="Script" id=4]
+[ext_resource path="res://characters/Boss/sprites/Skeleton Dead.png" type="Texture" id=5]
+[ext_resource path="res://characters/Boss/sprites/Skeleton Hit.png" type="Texture" id=6]
+[ext_resource path="res://characters/Boss/sprites/Skeleton React.png" type="Texture" id=7]
+[ext_resource path="res://characters/Boss/sprites/Skeleton Idle.png" type="Texture" id=8]
+[ext_resource path="res://characters/Boss/sprites/Skeleton Walk.png" type="Texture" id=9]
+[ext_resource path="res://characters/Boss/scripts/states/hurt.gd" type="Script" id=10]
+[ext_resource path="res://characters/Boss/scripts/states/die.gd" type="Script" id=11]
+[ext_resource path="res://characters/Boss/scripts/states/Attack.gd" type="Script" id=12]
+[ext_resource path="res://characters/Boss/scripts/states/calm.gd" type="Script" id=13]
+[ext_resource path="res://characters/Boss/scripts/states/Idle.gd" type="Script" id=14]
+[ext_resource path="res://characters/Boss/scripts/states/walk.gd" type="Script" id=15]
+[ext_resource path="res://characters/Boss/sounds/sfx_wpn_sword3.wav" type="AudioStream" id=16]
+[ext_resource path="res://characters/Boss/sounds/sfx_deathscream_alien1.wav" type="AudioStream" id=17]
+[ext_resource path="res://characters/Boss/sounds/sfx_deathscream_human2.wav" type="AudioStream" id=18]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 16, 48 )
+
+[sub_resource type="CircleShape2D" id=2]
+
+custom_solver_bias = 0.0
+radius = 4.0
+
+[sub_resource type="Animation" id=3]
+
+length = 1.9
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Attack:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sound/Attack:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.7, 1.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=4]
+
+resource_name = "dead"
+length = 1.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Dead:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.9, 1, 1.1, 1.2, 1.3, 1.3, 1.4, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 9, 10, 11, 12, 14, 13, 14, 14 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sound/Dead:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=5]
+
+length = 0.9
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Hurt:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0, 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sound/Hurt:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=6]
+
+length = 1.1
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Idle:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.01, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0 ]
+}
+
+[sub_resource type="Animation" id=7]
+
+length = 0.4
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/React:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.1, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 3 ]
+}
+
+[sub_resource type="Animation" id=8]
+
+length = 1.9
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Attack:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 17, 14, 13, 12, 11, 10, 9, 8 ]
+}
+
+[sub_resource type="Animation" id=9]
+
+length = 1.9
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Walk:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.7, 1.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 2, 3, 4, 5, 6, 7, 8, 8, 9, 10, 11, 12, 0, 0, 1 ]
+}
+
+[node name="Boss" type="KinematicBody2D" groups=[
+"enemy",
+]]
+
+position = Vector2( 0, -32 )
+input_pickable = false
+collision_layer = 4
+collision_mask = 7
+collision/safe_margin = 0.08
+script = ExtResource( 1 )
+_sections_unfolded = [ "Collision", "Transform", "collision" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="0"]
+
+position = Vector2( 0, -16 )
+shape = SubResource( 1 )
+_sections_unfolded = [ "Transform", "Z Index" ]
+
+[node name="Sprites" type="Node2D" parent="." index="1"]
+
+position = Vector2( 0, -32 )
+scale = Vector2( -4, 4 )
+script = ExtResource( 2 )
+_sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Hitbox" type="Area2D" parent="Sprites" index="0"]
+
+modulate = Color( 0.289063, 1, 0, 1 )
+position = Vector2( 0.652825, -4.01326 )
+rotation = -3.14159
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+monitoring = false
+collision_layer = 4
+collision_mask = 2
+audio_bus_override = false
+audio_bus_name = "Master"
+_sections_unfolded = [ "Audio Bus", "Collision", "Pickable", "Transform", "Visibility", "Z Index" ]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprites/Hitbox" index="0"]
+
+shape = SubResource( 2 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Attack" type="Sprite" parent="Sprites" index="1"]
+
+visible = false
+texture = ExtResource( 3 )
+offset = Vector2( 10.5, -2.5 )
+hframes = 18
+frame = 17
+_sections_unfolded = [ "Animation", "Offset", "Transform", "Visibility", "Z Index" ]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AttackArea" type="Area2D" parent="Sprites/Attack" index="0"]
+
+visible = false
+position = Vector2( 0, 1.875 )
+scale = Vector2( 0.25, 0.25 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.0
+angular_damp = 1.0
+monitoring = false
+monitorable = false
+collision_layer = 4
+collision_mask = 2
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 4 )
+_sections_unfolded = [ "Audio Bus", "Collision", "Transform", "Z Index" ]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Sprites/Attack/AttackArea" index="0"]
+
+visible = false
+build_mode = 0
+polygon = PoolVector2Array( 128, 66.5, 16, 66.5, 16, 14.5, 16, -29.5, -16, -29.5, -14, -71.5, 55, -71.5, 78, -62.5, 94, -50.5, 113, -23.5, 119, -5.5, 123, 9.5 )
+
+[node name="Dead" type="Sprite" parent="Sprites" index="2"]
+
+texture = ExtResource( 5 )
+offset = Vector2( -2.5, 0 )
+hframes = 15
+frame = 14
+_sections_unfolded = [ "Animation", "Offset", "Region", "Transform" ]
+
+[node name="Hurt" type="Sprite" parent="Sprites" index="3"]
+
+visible = false
+texture = ExtResource( 6 )
+offset = Vector2( 1, 0 )
+hframes = 8
+frame = 7
+_sections_unfolded = [ "Animation", "Offset", "Transform", "Z Index" ]
+
+[node name="React" type="Sprite" parent="Sprites" index="4"]
+
+visible = false
+texture = ExtResource( 7 )
+offset = Vector2( 3, 0 )
+hframes = 4
+_sections_unfolded = [ "Animation", "Offset", "Transform" ]
+
+[node name="Idle" type="Sprite" parent="Sprites" index="5"]
+
+visible = false
+texture = ExtResource( 8 )
+offset = Vector2( 4, 0 )
+hframes = 11
+_sections_unfolded = [ "Animation", "Material", "Offset", "Region", "Transform", "Visibility", "Z Index" ]
+
+[node name="Walk" type="Sprite" parent="Sprites" index="6"]
+
+visible = false
+texture = ExtResource( 9 )
+offset = Vector2( 3, -0.5 )
+hframes = 13
+frame = 2
+_sections_unfolded = [ "Animation", "Offset", "Transform", "Visibility" ]
+
+[node name="Position2D" type="Position2D" parent="Sprites" index="7"]
+
+visible = false
+modulate = Color( 0.675781, 0.105591, 0.105591, 1 )
+self_modulate = Color( 0.566406, 0.480118, 0.480118, 1 )
+position = Vector2( 20.8463, 14.3957 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
+
+[node name="Anim" type="AnimationPlayer" parent="." index="2"]
+
+root_node = NodePath("..")
+autoplay = "idle"
+playback_process_mode = 0
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/attack = SubResource( 3 )
+anims/dead = SubResource( 4 )
+anims/hurt = SubResource( 5 )
+anims/idle = SubResource( 6 )
+anims/react = SubResource( 7 )
+anims/special_attack = SubResource( 8 )
+anims/walk = SubResource( 9 )
+blend_times = [  ]
+_sections_unfolded = [ "Playback Options" ]
+
+[node name="States" type="Node" parent="." index="3"]
+
+[node name="Hurt" type="Node" parent="States" index="0"]
+
+script = ExtResource( 10 )
+
+[node name="Die" type="Node" parent="States" index="1"]
+
+script = ExtResource( 11 )
+
+[node name="Attack" type="Node" parent="States" index="2"]
+
+script = ExtResource( 12 )
+
+[node name="Calm" type="Node" parent="States" index="3"]
+
+script = ExtResource( 13 )
+
+[node name="Idle" type="Node" parent="States/Calm" index="0"]
+
+script = ExtResource( 14 )
+
+[node name="Walk" type="Node" parent="States/Calm" index="1"]
+
+script = ExtResource( 15 )
+
+[node name="Health" type="Label" parent="." index="4"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -20.0
+margin_top = -78.0
+margin_right = 20.0
+margin_bottom = -64.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sound" type="Node" parent="." index="5"]
+
+[node name="Attack" type="AudioStreamPlayer" parent="Sound" index="0"]
+
+stream = ExtResource( 16 )
+volume_db = 0.0
+pitch_scale = 0.5
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[node name="Dead" type="AudioStreamPlayer" parent="Sound" index="1"]
+
+stream = ExtResource( 17 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[node name="Hurt" type="AudioStreamPlayer" parent="Sound" index="2"]
+
+stream = ExtResource( 18 )
+volume_db = 0.0
+pitch_scale = 2.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="Sound" index="3"]
+
+stream = null
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[connection signal="body_entered" from="Sprites/Attack/AttackArea" to="Sprites/Attack/AttackArea" method="_on_Area2D_body_entered"]
+
+[connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
+
+
